@@ -1,23 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
-import { Wrapper } from "./Wrapper";
 import { useNavigate } from "react-router-dom";
 
 const ListSection = styled.ul`
   width: 100%;
   padding: 0;
+  list-style: none;
+  margin: 0;
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fit, 264px);
+  justify-content: center;
   gap: 40px;
 
-  @media (min-width: 767px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 75px;
+    gap: 70px;
   }
 `;
 
@@ -27,8 +24,8 @@ function CardList({ filteredList }) {
   const handleClickOnCard = (param) => {
     navigate(`/country/${param}`);
   };
+  
   return (
-    <Wrapper>
       <ListSection>
         {filteredList.map(({ flags, name, population, region, capital }) => {
           const countryDescription = {
@@ -37,7 +34,7 @@ function CardList({ filteredList }) {
             subInfo: [
               {
                 title: "Population",
-                description: population,
+                description: population.toLocaleString("en-US"),
               },
               {
                 title: "Region",
@@ -58,7 +55,6 @@ function CardList({ filteredList }) {
           );
         })}
       </ListSection>
-    </Wrapper>
   );
 }
 

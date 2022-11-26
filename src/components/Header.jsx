@@ -54,7 +54,7 @@ function Header() {
   }, [theme]);
   return (
     <HeaderElement>
-      <Wrapper>
+      {/* <Wrapper> */}
         <Container>
           <Title>Where is the world?</Title>
           <Switcher onClick={switchTheme}>
@@ -62,7 +62,7 @@ function Header() {
             <p>{theme} Mode</p>
           </Switcher>
         </Container>
-      </Wrapper>
+      {/* </Wrapper> */}
     </HeaderElement>
   );
 }

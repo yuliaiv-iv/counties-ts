@@ -9,25 +9,28 @@
   --fs-xs: 12px;
   --fs-sm: 14px;
   --fs-reg: 16px;
+  --fs-large: 18px;
+  --fs-xl: 22px;
   --fw-light: 300; 
   --fw-normal: 600; 
   --fw-bold: 800;
 
   --radius: 5px;
   --shadow: rgba(0, 0, 0, 0.06) 0 2px 4px 0;
+  --hover-shadow: rgba(0, 0, 0, 0.29) 0 0 7px 0;
 }
 
 body[data-theme='dark'] {
   --color-text: hsl(0, 0%, 100%); /*Dark Mode Text*/
   --color-bg: hsl(207, 26%, 17%); /*Dark Mode Background*/
   --color-ui: hsl(209, 23%, 22%); /*Dark Mode Elements*/
-  --color-input: hsl(0, 0%, 100%);
+  --color-input: hsl(0, 0%, 50%);
 }
 body[data-theme='light'] {
   --color-text: hsl(200, 15%, 8%); /*Light Mode Text*/
   --color-bg: hsl(0, 0%, 98%); /*Light Mode Background*/
   --color-ui: hsl(0, 0%, 100%); /*Light Mode Elements*/
-  --color-input: hsl(0, 0%, 70%);
+  --color-input: hsl(0, 0%, 50%);
 }
 
 

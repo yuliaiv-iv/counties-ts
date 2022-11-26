@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useFetch } from "../utils/api";
-import { searchByCountry, filterByCode } from "../utils/config";
+import { useFetch } from "../hooks/useFetch";
+import { searchByCountry } from "../utils/config";
+import Button from "../UI/Button";
+import { IoArrowBack } from "react-icons/io5";
+import Info from "../components/Info";
 
 function Details() {
   let { name } = useParams();
@@ -11,44 +14,23 @@ function Details() {
     searchByCountry(name)
   );
 
-  const { borders = [] } = country?.[0] || {};
-
-  // console.log(country)
-
-  const { data: neighborBorders, fetchData: fetchNeiborBorders } = useFetch(
-    [],
-    filterByCode(borders)
-  );
-
   useEffect(() => {
     fetchCountry();
   }, [fetchCountry]);
 
-  useEffect(() => {
-    if (borders.length === 0) return;
-    fetchNeiborBorders();
-  }, [fetchNeiborBorders, borders]);
-
-  console.log(neighborBorders);
+  const handleBackBtn = () => {
+    navigate(-1);
+  };
 
   return (
     <div>
-      <button onClick={() => navigate(-1)}>Back</button>
-      <div>details {name}</div>
-      {/* make an error if fetched failed */}
+      <Button text="Back" onClick={handleBackBtn}>
+        <IoArrowBack />
+      </Button>
       {country && (
-        <div>
-          {borders.length === 0 ? (
-            "no borders"
-          ) : (
-            <div>
-              {neighborBorders.map((b) => (
-                <div onClick={() => navigate(`/country/${b.name}`)}>{b.name}</div>
-              ))}
-            </div>
-          )}
-        </div>
+        <Info {...country[0]} />
       )}
+      {/* make an error if fetched failed */}
     </div>
   );
 }
