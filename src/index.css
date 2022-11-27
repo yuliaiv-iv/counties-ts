@@ -28,7 +28,7 @@ body[data-theme='dark'] {
 }
 body[data-theme='light'] {
   --color-text: hsl(200, 15%, 8%); /*Light Mode Text*/
-  --color-bg: hsl(0, 0%, 98%); /*Light Mode Background*/
+  --color-bg: hsl(0, 0%, 96%); /*Light Mode Background*/
   --color-ui: hsl(0, 0%, 100%); /*Light Mode Elements*/
   --color-input: hsl(0, 0%, 50%);
 }

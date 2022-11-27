@@ -7,11 +7,15 @@ const InputContainer = styled.label`
   max-width: 480px;
   display: flex;
   align-items: center;
-  /* margin: 24px 0 40px; */
-  padding-left: 32px;
+  padding-left: 22px;
   color: var(--color-input);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  margin-bottom: 40px;
+
+  @media (min-width: 767px) {
+    margin-bottom: 0;
+  }
 `;
 
 const InputElement = styled.input.attrs({

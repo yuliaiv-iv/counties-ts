@@ -2,8 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { IoMoonOutline, IoMoon } from "react-icons/io5";
+import { CapitalizeFirstLetter } from "../utils/config";
 import { Wrapper } from "./Wrapper";
 import { Link } from "react-router-dom";
+import Button from "../UI/Button";
 
 const HeaderElement = styled.header`
   height: 80px;
@@ -28,17 +30,10 @@ const Title = styled(Link).attrs({
   line-height: 20px;
 `;
 
-const Switcher = styled.div`
-  display: flex;
-  cursor: pointer;
-  line-height: 16px;
-  p {
-    color: var(--color-text);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-light);
-    margin: 0;
-    margin-left: 10px;
-    text-transform: capitalize;
+const Switcher = styled(Button)`
+&& {
+  box-shadow: none;
+  padding: 0;
   }
 `;
 
@@ -46,23 +41,26 @@ function Header() {
   const [theme, setTheme] = useState("light");
 
   const switchTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const renderTheme = theme === "light" ? "dark" : "light"
+    setTheme(renderTheme);
+    window.localStorage.setItem("themeMode", renderTheme);
   };
 
   useEffect(() => {
-    document.body.setAttribute("data-theme", theme);
+    const lastTheme = window.localStorage.getItem("themeMode");
+    document.body.setAttribute("data-theme", lastTheme);
   }, [theme]);
+  
   return (
     <HeaderElement>
-      {/* <Wrapper> */}
+      <Wrapper>
         <Container>
           <Title>Where is the world?</Title>
-          <Switcher onClick={switchTheme}>
+          <Switcher text={`${CapitalizeFirstLetter(theme)} Mode`} onClick={switchTheme}>
             {theme === "light" ? <IoMoonOutline /> : <IoMoon />}
-            <p>{theme} Mode</p>
           </Switcher>
         </Container>
-      {/* </Wrapper> */}
+      </Wrapper>
     </HeaderElement>
   );
 }

@@ -26,9 +26,9 @@ const Btn = styled.button`
     padding: ${(props) => props.padding || "10px 40px"};
   }
 `;
-function Button({ text, children, type, padding, onClick }) {
+function Button({ text, children, type, padding, onClick, className }) {
   return (
-    <Btn type={type} padding={padding} onClick={onClick}>
+    <Btn type={type} padding={padding} onClick={onClick} className={className}>
       {children} {text}
     </Btn>
   );

@@ -5,14 +5,18 @@ import { searchByCountry } from "../utils/config";
 import Button from "../UI/Button";
 import { IoArrowBack } from "react-icons/io5";
 import Info from "../components/Info";
+import Main from "../components/Main";
+import Loading from "../components/Loading";
 
 function Details() {
   let { name } = useParams();
   const navigate = useNavigate();
-  const { data: country, fetchData: fetchCountry } = useFetch(
-    [],
-    searchByCountry(name)
-  );
+  const {
+    data: country,
+    fetchData: fetchCountry,
+    isLoading,
+    error,
+  } = useFetch([], searchByCountry(name));
 
   useEffect(() => {
     fetchCountry();
@@ -23,15 +27,16 @@ function Details() {
   };
 
   return (
-    <div>
+    <Main>
       <Button text="Back" onClick={handleBackBtn}>
         <IoArrowBack />
       </Button>
-      {country && (
-        <Info {...country[0]} />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Info {...country[0]} error={error} />
       )}
-      {/* make an error if fetched failed */}
-    </div>
+    </Main>
   );
 }
 

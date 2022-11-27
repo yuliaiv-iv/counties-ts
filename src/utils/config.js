@@ -19,3 +19,10 @@ export const options = [
 export const arrayToString = (array, key) => {
   return array?.map((item) => item[key]);
 };
+
+export const CapitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const errorMessage =
+  "Sorry something went wrong during the request. There may be a connection issue or the server may be down. Please try again later";

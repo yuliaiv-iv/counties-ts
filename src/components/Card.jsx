@@ -38,6 +38,10 @@ const InfoList = styled.ul`
   padding: 0;
   list-style: none;
   margin-top: 16px;
+
+  li {
+    margin-bottom: 3px;
+  }
 `;
 
 function Card({ image, name, subInfo, onClick }) {

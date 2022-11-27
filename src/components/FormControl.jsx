@@ -8,6 +8,7 @@ const Section = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin: 0 0 24px;
   @media (min-width: 767px) {
     flex-direction: row;
     justify-content: space-between;
@@ -24,19 +25,18 @@ function FormControl({ onSearch }) {
     onSearch(search, regionValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, region]);
-  
+
   return (
-    <Section>
-      <FormSearch search={search} setSearch={setSearch} />
-      <SelectOption
-        placeholder="Filter by Region"
-        value={region}
-        onChange={setRegion}
-        options={options}
-      />
-    </Section>
+      <Section>
+        <FormSearch search={search} setSearch={setSearch} />
+        <SelectOption
+          placeholder="Filter by Region"
+          value={region}
+          onChange={setRegion}
+          options={options}
+        />
+      </Section>
   );
 }
 
 export default FormControl;
-

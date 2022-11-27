@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import CardList from "../components/CardList";
 import FormControl from "../components/FormControl";
+import Main from "../components/Main";
+import ScrollButton from "../components/ScrollButton";
 
-function HomePage({ countries, fetchCounties }) {
+function HomePage({ countries, fetchCounties, error, errorMessage }) {
   const [filteredList, setFilteredList] = useState(countries);
 
   useEffect(() => {
-    if (!countries.length) fetchCounties();
+    if (!countries.length && !error) fetchCounties();
     setFilteredList(countries);
-  }, [fetchCounties, countries]);
+  }, [fetchCounties, countries, error]);
+
 
   const handleSearchAndFilter = (search, region) => {
     let filteredCounties = [...countries];
@@ -27,10 +30,11 @@ function HomePage({ countries, fetchCounties }) {
   };
 
   return (
-    <>
+    <Main>
       <FormControl onSearch={handleSearchAndFilter} />
-      <CardList filteredList={filteredList} />
-    </>
+      <CardList filteredList={filteredList} error={error} />
+      <ScrollButton />
+    </Main>
   );
 }
 
