@@ -31,9 +31,9 @@ const Title = styled(Link).attrs({
 `;
 
 const Switcher = styled(Button)`
-&& {
-  box-shadow: none;
-  padding: 0;
+  && {
+    box-shadow: none;
+    padding: 0;
   }
 `;
 
@@ -41,7 +41,7 @@ function Header() {
   const [theme, setTheme] = useState("light");
 
   const switchTheme = () => {
-    const renderTheme = theme === "light" ? "dark" : "light"
+    const renderTheme = theme === "light" ? "dark" : "light";
     setTheme(renderTheme);
     window.localStorage.setItem("themeMode", renderTheme);
   };
@@ -50,13 +50,17 @@ function Header() {
     const lastTheme = window.localStorage.getItem("themeMode");
     document.body.setAttribute("data-theme", lastTheme);
   }, [theme]);
-  
+
   return (
     <HeaderElement>
       <Wrapper>
         <Container>
           <Title>Where is the world?</Title>
-          <Switcher text={`${CapitalizeFirstLetter(theme)} Mode`} onClick={switchTheme}>
+          <Switcher
+            text={`${CapitalizeFirstLetter(theme)} Mode`}
+            onClick={switchTheme}
+            // tabIndex="2"
+          >
             {theme === "light" ? <IoMoonOutline /> : <IoMoon />}
           </Switcher>
         </Container>

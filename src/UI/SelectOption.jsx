@@ -13,7 +13,7 @@ function SelectOption({ value, onChange, options, placeholder }) {
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
-          border: "none",
+          cursor: "pointer",
           minWidth: "200px",
           height: "48px",
           boxShadow: "var(--shadow)",
@@ -23,6 +23,7 @@ function SelectOption({ value, onChange, options, placeholder }) {
           borderRadius: "var(--radius)",
           lineHeight: "20px",
           backgroundColor: 'var(--color-ui)',
+          border: state.isFocused ? '' : 'none',
         }),
         option: (baseStyles, state) => ({
           ...baseStyles,
@@ -32,6 +33,7 @@ function SelectOption({ value, onChange, options, placeholder }) {
           cursor: "pointer",
           backgroundColor: state.isSelected ? "var(--color-input)" : "var(--color-ui)",
           color: "var(--color-text)",
+          border: state.isFocused ? 'var(--color-text) 1px solid' : 'none',
         }),
         valueContainer: (baseStyles) => ({
           ...baseStyles,

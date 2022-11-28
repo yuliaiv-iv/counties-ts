@@ -44,10 +44,9 @@ const InfoList = styled.ul`
   }
 `;
 
-function Card({ image, name, subInfo, onClick }) {
-
+function Card({ image, name, subInfo, onClick, onKeyPress }) {
   return (
-    <ListItem onClick={onClick}>
+    <ListItem onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
       <CardImage src={image} alt={name} />
       <InfoContainer>
         <Title>{name}</Title>

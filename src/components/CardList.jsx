@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "./Card";
 import { useNavigate } from "react-router-dom";
 import { errorMessage } from "../utils/config";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 const ListSection = styled.ul`
   width: 100%;
@@ -11,7 +12,7 @@ const ListSection = styled.ul`
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, 264px);
-  justify-content: center;
+  justify-content: ${(props) => props.justifyContent || "center"};
   gap: 40px;
 
   @media (min-width: 1438px) {
@@ -27,9 +28,20 @@ const ErrorMsg = styled.h3`
 
 function CardList({ filteredList, error }) {
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
 
   const handleClickOnCard = (param) => {
     navigate(`/country/${param}`);
+  };
+
+  const ListStyle = () => {
+    if (
+      (windowSize > 1255 && filteredList.length < 4) ||
+      (windowSize > 903 && windowSize <= 1255 && filteredList.length < 3)
+    ) {
+      return "flex-start";
+    }
+    return;
   };
 
   return (
@@ -37,7 +49,7 @@ function CardList({ filteredList, error }) {
       {error ? (
         <ErrorMsg>{errorMessage}</ErrorMsg>
       ) : (
-        <ListSection>
+        <ListSection justifyContent={ListStyle()}>
           {filteredList.map(({ flags, name, population, region, capital }) => {
             const countryDescription = {
               image: flags.png,
@@ -61,42 +73,15 @@ function CardList({ filteredList, error }) {
               <Card
                 key={name}
                 {...countryDescription}
+                filteredList={filteredList}
                 onClick={() => handleClickOnCard(name)}
+                onKeyPress={() => handleClickOnCard(name)}
               />
             );
           })}
         </ListSection>
       )}
     </>
-    // <ListSection>
-    //   {filteredList.map(({ flags, name, population, region, capital }) => {
-    //     const countryDescription = {
-    //       image: flags.png,
-    //       name: name,
-    //       subInfo: [
-    //         {
-    //           title: "Population",
-    //           description: population.toLocaleString("en-US"),
-    //         },
-    //         {
-    //           title: "Region",
-    //           description: region,
-    //         },
-    //         {
-    //           title: "Capital",
-    //           description: capital,
-    //         },
-    //       ],
-    //     };
-    //     return (
-    //       <Card
-    //         key={name}
-    //         {...countryDescription}
-    //         onClick={() => handleClickOnCard(name)}
-    //       />
-    //     );
-    //   })}
-    // </ListSection>
   );
 }
 
