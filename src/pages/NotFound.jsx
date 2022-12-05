@@ -34,8 +34,10 @@ function NotFound() {
   return (
     <Main>
       <Container>
-        <Title >Page Not Found</Title>
-        <p>Go to <LinkTo>Home Page</LinkTo></p>
+        <Title>Page Not Found</Title>
+        <p>
+          Go to <LinkTo>Home Page</LinkTo>
+        </p>
       </Container>
     </Main>
   );

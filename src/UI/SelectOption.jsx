@@ -22,8 +22,8 @@ function SelectOption({ value, onChange, options, placeholder }) {
           color: "var(--color-text)",
           borderRadius: "var(--radius)",
           lineHeight: "20px",
-          backgroundColor: 'var(--color-ui)',
-          border: state.isFocused ? '' : 'none',
+          backgroundColor: "var(--color-ui)",
+          border: state.isFocused ? "" : "none",
         }),
         option: (baseStyles, state) => ({
           ...baseStyles,
@@ -31,9 +31,11 @@ function SelectOption({ value, onChange, options, placeholder }) {
           fontSize: "var(--fs-sm)",
           lineHeight: "20px",
           cursor: "pointer",
-          backgroundColor: state.isSelected ? "var(--color-input)" : "var(--color-ui)",
+          backgroundColor: state.isSelected
+            ? "var(--color-input)"
+            : "var(--color-ui)",
           color: "var(--color-text)",
-          border: state.isFocused ? 'var(--color-text) 1px solid' : 'none',
+          border: state.isFocused ? "var(--color-text) 1px solid" : "none",
         }),
         valueContainer: (baseStyles) => ({
           ...baseStyles,
@@ -66,7 +68,7 @@ function SelectOption({ value, onChange, options, placeholder }) {
           ...baseStyles,
           marginLeft: "0",
           marginRight: "0",
-          color: "var(--color-text)"
+          color: "var(--color-text)",
         }),
         indicatorSeparator: () => {},
       }}

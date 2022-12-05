@@ -9,7 +9,7 @@ const ScrollBtn = styled(Button)`
   && {
     border-radius: 50%;
     border: solid var(--color-text) 1px;
-    background-color: var(--color-bg);
+    background: transparent;
     svg {
       margin: 0;
       width: 30px;
@@ -36,10 +36,10 @@ function ScrollButton() {
 
   const scrollToTop = () => {
     window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
+      top: 0,
+      behavior: "smooth",
     });
-};
+  };
 
   return (
     <>

@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import Card from "./Card";
+import Card from "../../components/Card";
+import Loading from "../../components/Loading";
 import { useNavigate } from "react-router-dom";
-import { errorMessage } from "../utils/config";
-import { useWindowSize } from "../hooks/useWindowSize";
+import { errorMessage } from "../../utils/config";
+import { useWindowSize } from "../../hooks/useWindowSize";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectAllCountries,
+  fetchCountries,
+  selectCountries,
+} from "./countrySlice";
+import { selectControls } from "../controls/controlSlice";
 
 const ListSection = styled.ul`
   width: 100%;
@@ -26,18 +35,26 @@ const ErrorMsg = styled.h3`
   font-weight: var(--fw-light);
 `;
 
-function CardList({ filteredList, error }) {
+function CountryList() {
   const navigate = useNavigate();
   const windowSize = useWindowSize();
+  const dispatch = useDispatch();
 
-  const handleClickOnCard = (param) => {
-    navigate(`/country/${param}`);
-  };
+  const { status, list, error } = useSelector(selectAllCountries);
+  const controls = useSelector(selectControls);
+  const countries = useSelector((state) => selectCountries(state, controls));
 
+  useEffect(() => {
+    if (!list.length) {
+      dispatch(fetchCountries());
+    }
+  }, [dispatch, list]);
+
+  // adjust the styles based on screen size
   const ListStyle = () => {
     if (
-      (windowSize > 1255 && filteredList.length < 4) ||
-      (windowSize > 903 && windowSize <= 1255 && filteredList.length < 3)
+      (windowSize > 1255 && countries.length < 4) ||
+      (windowSize > 903 && windowSize <= 1255 && countries.length < 3)
     ) {
       return "flex-start";
     }
@@ -46,11 +63,11 @@ function CardList({ filteredList, error }) {
 
   return (
     <>
-      {error ? (
-        <ErrorMsg>{errorMessage}</ErrorMsg>
-      ) : (
+      {error && <ErrorMsg>{errorMessage}</ErrorMsg>}
+      {status === "loading" && <Loading />}
+      {status === "received" && (
         <ListSection justifyContent={ListStyle()}>
-          {filteredList.map(({ flags, name, population, region, capital }) => {
+          {countries.map(({ flags, name, population, region, capital }) => {
             const countryDescription = {
               image: flags.png,
               name: name,
@@ -73,9 +90,8 @@ function CardList({ filteredList, error }) {
               <Card
                 key={name}
                 {...countryDescription}
-                filteredList={filteredList}
-                onClick={() => handleClickOnCard(name)}
-                onKeyPress={() => handleClickOnCard(name)}
+                onClick={() => navigate(`/country/${name}`)}
+                onKeyPress={() => navigate(`/country/${name}`)}
               />
             );
           })}
@@ -85,4 +101,4 @@ function CardList({ filteredList, error }) {
   );
 }
 
-export default CardList;
+export default CountryList;
