@@ -1,8 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import * as api from "../../utils/config";
+import { RootState } from "store";
+import { Country, Status } from "types";
+import * as api from "utils/config";
 
-const initialState = {
+type DetailsSlice = {
+  currentCountry: Country | null;
+  neighbors: string[];
+  neighborsStatus: Status;
+  status: Status;
+  error: string | unknown;
+};
+
+const initialState: DetailsSlice = {
   currentCountry: null,
   neighbors: [],
   neighborsStatus: "idle",
@@ -10,19 +20,31 @@ const initialState = {
   error: null,
 };
 
-export const fetchCountyByName = createAsyncThunk(
+export const fetchCountyByName = createAsyncThunk<Country, string>(
   "details/fetchCountyByName",
-  async (name) => {
-    const response = await axios.get(api.searchByCountry(name));
-    return response.data[0];
+  async (name, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(api.searchByCountry(name));
+      return response.data[0];
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+    }
   }
 );
 
-export const fetchNeighborCounties = createAsyncThunk(
+export const fetchNeighborCounties = createAsyncThunk<Country[], string[]>(
   "details/fetchNeighborCounties",
-  async (border) => {
-    const response = await axios.get(api.filterByCode(border));
-    return response.data;
+  async (border, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(api.filterByCode(border));
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+    }
   }
 );
 
@@ -44,7 +66,7 @@ const detailsSlice = createSlice({
       })
       .addCase(fetchCountyByName.rejected, (state, action) => {
         state.status = "rejected";
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       })
       .addCase(fetchNeighborCounties.fulfilled, (state, action) => {
         state.neighbors = action.payload.map((country) => country.name);
@@ -61,4 +83,6 @@ const detailsSlice = createSlice({
 
 export const { clearDetails } = detailsSlice.actions;
 export const detailsReducer = detailsSlice.reducer;
-export const selectDetails = (state) => state.details;
+
+// Selectors
+export const selectDetails = (state: RootState) => state.details;

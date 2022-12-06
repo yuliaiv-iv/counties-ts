@@ -1,12 +1,13 @@
-import React from "react";
 import styled from "styled-components";
-import SelectOption from "../../UI/SelectOption";
+import SelectOption, { CountryOption } from "../../UI/SelectOption";
 import Input from "../../UI/Input";
 import { IoSearch } from "react-icons/io5";
-import { options } from "../../utils/config";
+import { regionOptions } from "../../utils/config";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { setSearch, setRegion, selectControls } from "./controlSlice";
+import { useAppDispatch } from "store";
+import { SingleValue } from "react-select";
 
 const Section = styled.section`
   display: flex;
@@ -21,15 +22,20 @@ const Section = styled.section`
 `;
 
 function FormControl() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { search, region } = useSelector(selectControls);
+  const options = Object.values(regionOptions);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearch(e.target.value));
   };
 
-  const handleSelect = (region) => {
-    dispatch(setRegion(region?.value || ""));
+  const handleSelect = (region: SingleValue<CountryOption>) => {
+    if (region) {
+      dispatch(setRegion(region.value || ""));
+    } else {
+      dispatch(setRegion(""));
+    }
   };
 
   return (
@@ -39,7 +45,7 @@ function FormControl() {
       </Input>
       <SelectOption
         placeholder="Filter by Region"
-        value={options[region]}
+        value={region ? regionOptions[region]: ""}
         onChange={handleSelect}
         options={options}
       />

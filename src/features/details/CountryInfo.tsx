@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import InfoText from "../../UI/InfoText";
 import Button from "../../UI/Button";
 import { arrayToString } from "../../utils/config";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavigateFunction } from "react-router-dom";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchNeighborCounties, selectDetails } from "./detailsSlice";
+import { useAppDispatch } from "store";
+import { Country } from "types";
 
 const Details = styled.article`
   display: flex;
@@ -74,10 +76,14 @@ const ButtonGroup = styled.div`
   gap: 10px;
 `;
 
+interface InfoProps extends Country  {
+  push: NavigateFunction;
+}
+
 function CountryInfo({
   name,
   nativeName,
-  flag,
+  flags,
   capital,
   population,
   region,
@@ -86,9 +92,10 @@ function CountryInfo({
   currencies = [],
   languages = [],
   borders = [],
-}) {
+  push
+}: InfoProps) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (borders.length) {
@@ -97,7 +104,7 @@ function CountryInfo({
     return;
   }, [dispatch, borders]);
 
-  const handleNeighborBorders = (name) => {
+  const handleNeighborBorders = (name: string) => {
     navigate(`/country/${name}`);
   };
 
@@ -105,7 +112,7 @@ function CountryInfo({
 
   return (
     <Details>
-      <DetailsImg src={flag} alt={name} />
+      <DetailsImg src={flags.png} alt={name} />
       <div>
         <DetailsTitle>{name}</DetailsTitle>
         <ListGroup>
@@ -139,15 +146,13 @@ function CountryInfo({
             <DetailsListItem>
               <InfoText
                 title="Currencies"
-                description={
-                  arrayToString(currencies, "name").join(", ") || "N/A"
-                }
+                description={arrayToString(currencies)}
               />
             </DetailsListItem>
             <DetailsListItem>
               <InfoText
                 title="Languages"
-                description={arrayToString(languages, "name").join(", ")}
+                description={arrayToString(languages)}
               />
             </DetailsListItem>
           </DetailsList>

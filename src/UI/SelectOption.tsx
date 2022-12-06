@@ -1,15 +1,17 @@
-import React from "react";
-import Select from "react-select";
+import Select, { Props } from "react-select";
+import { Region } from "types";
 
-function SelectOption({ value, onChange, options, placeholder }) {
+export type CountryOption = {
+      label: Region;
+      value: Region;
+    } | "";
+
+function SelectOption(props: Props<CountryOption, false>) {
   return (
     <Select
-      placeholder={placeholder}
+      {...props}
       isClearable={true}
       isSearchable={false}
-      value={value}
-      onChange={onChange}
-      options={options}
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
@@ -70,7 +72,9 @@ function SelectOption({ value, onChange, options, placeholder }) {
           marginRight: "0",
           color: "var(--color-text)",
         }),
-        indicatorSeparator: () => {},
+        indicatorSeparator: () => ({
+          display: "none"
+        }),
       }}
     />
   );

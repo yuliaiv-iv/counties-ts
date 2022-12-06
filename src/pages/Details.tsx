@@ -1,9 +1,8 @@
-import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
-import Button from "../UI/Button";
-import Main from "../components/Main";
-import CountryDetails from "../features/details/CountryDetails";
+import Button from "UI/Button";
+import Main from "components/Main";
+import CountryDetails from "features/details/CountryDetails";
 
 function Details() {
   let { name } = useParams();

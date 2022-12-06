@@ -1,6 +1,6 @@
-import React from "react";
 import styled from "styled-components";
-import InfoText from "../UI/InfoText";
+import InfoText from "UI/InfoText";
+import { CountryInfo } from "types";
 
 const ListItem = styled.li`
   width: 100%;
@@ -44,9 +44,14 @@ const InfoList = styled.ul`
   }
 `;
 
-function Card({ image, name, subInfo, onClick, onKeyPress }) {
+interface CardProps extends CountryInfo {
+  onClick: () => void;
+  onKeyPress: () => void;
+}
+
+function Card({ image, name, subInfo = [], onClick, onKeyPress }: CardProps) {
   return (
-    <ListItem onClick={onClick} onKeyPress={onKeyPress} tabIndex="0">
+    <ListItem onClick={onClick} onKeyPress={onKeyPress} tabIndex={0}>
       <CardImage src={image} alt={name} />
       <InfoContainer>
         <Title>{name}</Title>

@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { countryReducer } from "./features/counties/countrySlice";
 import { themeReducer } from "./features/theme/themeSlice";
@@ -12,3 +13,7 @@ export const store = configureStore({
     details: detailsReducer,
   },
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch: () => AppDispatch = useDispatch;

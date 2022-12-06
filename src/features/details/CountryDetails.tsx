@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Loading from "../../components/Loading";
 import CountryInfo from "./CountryInfo";
 import { errorMessage } from "../../utils/config";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { fetchCountyByName, selectDetails, clearDetails } from "./detailsSlice";
+import { useAppDispatch } from "store";
+import { NavigateFunction } from "react-router-dom";
 
 const ErrorMsg = styled.h3`
   color: var(--color-text);
@@ -13,8 +15,13 @@ const ErrorMsg = styled.h3`
   font-weight: var(--fw-light);
 `;
 
-function CountryDetails({ name = "", navigate }) {
-  const dispatch = useDispatch();
+type CountryDetailsProps = {
+  name?: string;
+  navigate: NavigateFunction;
+};
+
+function CountryDetails({ name = "", navigate }: CountryDetailsProps) {
+  const dispatch = useAppDispatch();
   const { currentCountry, status, error } = useSelector(selectDetails);
 
   useEffect(() => {

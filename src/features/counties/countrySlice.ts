@@ -1,18 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { RootState } from "store";
+import { Country, Status } from "types";
 import * as api from "../../utils/config";
 
-const initialState = {
+type CountrySlice = {
+  status: Status;
+  error: string | unknown;
+  list: Country[];
+};
+
+const initialState: CountrySlice = {
   status: "idle",
   error: null,
   list: [],
 };
 
-export const fetchCountries = createAsyncThunk(
+export const fetchCountries = createAsyncThunk<Country[], undefined>(
   "countries/fetchCountries",
-  async () => {
-    const response = await axios.get(api.ALL_COUNTRIES);
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(api.ALL_COUNTRIES);
+      return response.data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+    }
   }
 );
 
@@ -32,15 +46,19 @@ const countrySlice = createSlice({
       })
       .addCase(fetchCountries.rejected, (state, action) => {
         state.status = "rejected";
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
 export const countryReducer = countrySlice.reducer;
 
-export const selectAllCountries = (state) => state.countries;
-export const selectCountries = (state, { search = "", region = "" }) => {
+// Selectorc
+export const selectAllCountries = (state: RootState) => state.countries;
+export const selectCountries = (
+  state: RootState,
+  { search = "", region = "" }
+) => {
   return state.countries.list.filter(
     (country) =>
       country.name.toLowerCase().includes(search.toLowerCase()) &&

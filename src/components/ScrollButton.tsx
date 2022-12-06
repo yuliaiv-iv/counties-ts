@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Button from "../UI/Button";
 import { IoArrowUp } from "react-icons/io5";
@@ -44,7 +44,7 @@ function ScrollButton() {
   return (
     <>
       {visibleBtn ? (
-        <ScrollBtn padding="20px" onClick={scrollToTop}>
+        <ScrollBtn onClick={scrollToTop} padding="20px">
           <IoArrowUp />
         </ScrollBtn>
       ) : null}

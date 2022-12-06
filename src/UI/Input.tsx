@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 
 const InputContainer = styled.label`
@@ -40,7 +40,13 @@ const InputElement = styled.input.attrs({
   }
 `;
 
-function Input({ children, value, onChange }) {
+type InputProps = {
+  children: ReactNode;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; 
+};
+
+function Input({ children, value, onChange }: InputProps) {
   return (
     <InputContainer>
       {children}

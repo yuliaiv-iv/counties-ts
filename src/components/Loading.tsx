@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const spin = keyframes`
@@ -8,7 +7,7 @@ const spin = keyframes`
 `;
 
 const Loader = styled.div`
-  height: calc(100vh - 120px);
+  height: calc(100vh - 232px);
   display: flex;
   justify-content: center;
   align-items: center;

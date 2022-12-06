@@ -1,7 +1,11 @@
-import React from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 
-const Btn = styled.button`
+type Props = {
+  padding?: string;
+};
+
+const Btn = styled.button<Props>`
   border: none;
   display: flex;
   align-items: center;
@@ -23,12 +27,20 @@ const Btn = styled.button`
   }
 
   @media (min-width: 767px) {
-    padding: ${(props) => props.padding || "10px 40px"};
   }
 `;
-function Button({ text, children, type, padding, onClick, className }) {
+
+type ButtonProp = {
+  onClick: () => void;
+  text?: string;
+  className?: string;
+  children?: ReactNode;
+  padding?: string
+};
+
+function Button({ text, children, onClick, className, padding }: ButtonProp) {
   return (
-    <Btn type={type} padding={padding} onClick={onClick} className={className}>
+    <Btn onClick={onClick} className={className} padding={padding}>
       {children} {text}
     </Btn>
   );

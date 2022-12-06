@@ -1,28 +1,34 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
-import Card from "../../components/Card";
-import Loading from "../../components/Loading";
+import Card from "components/Card";
+import Loading from "components/Loading";
 import { useNavigate } from "react-router-dom";
-import { errorMessage } from "../../utils/config";
-import { useWindowSize } from "../../hooks/useWindowSize";
+import { errorMessage } from "utils/config";
+import { useWindowSize } from "hooks/useWindowSize";
+import { CountryInfo } from "types";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector} from "react-redux";
 import {
   selectAllCountries,
   fetchCountries,
   selectCountries,
 } from "./countrySlice";
 import { selectControls } from "../controls/controlSlice";
+import { RootState, useAppDispatch } from "store";
 
-const ListSection = styled.ul`
+type Props = {
+  justifyContent?: string;
+};
+
+const ListSection = styled.ul<Props>`
   width: 100%;
   padding: 0;
   list-style: none;
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, 264px);
-  justify-content: ${(props) => props.justifyContent || "center"};
   gap: 40px;
+  justify-content: ${(props) => props.justifyContent || "center"};
 
   @media (min-width: 1438px) {
     gap: 40px 74px;
@@ -37,12 +43,14 @@ const ErrorMsg = styled.h3`
 
 function CountryList() {
   const navigate = useNavigate();
-  const windowSize = useWindowSize();
-  const dispatch = useDispatch();
+  const { width } = useWindowSize();
+  const dispatch = useAppDispatch()
 
   const { status, list, error } = useSelector(selectAllCountries);
   const controls = useSelector(selectControls);
-  const countries = useSelector((state) => selectCountries(state, controls));
+  const countries = useSelector((state: RootState) =>
+    selectCountries(state, controls)
+  );
 
   useEffect(() => {
     if (!list.length) {
@@ -53,8 +61,8 @@ function CountryList() {
   // adjust the styles based on screen size
   const ListStyle = () => {
     if (
-      (windowSize > 1255 && countries.length < 4) ||
-      (windowSize > 903 && windowSize <= 1255 && countries.length < 3)
+      (width > 1255 && countries.length < 4) ||
+      (width > 903 && width <= 1255 && countries.length < 3)
     ) {
       return "flex-start";
     }
@@ -68,7 +76,7 @@ function CountryList() {
       {status === "received" && (
         <ListSection justifyContent={ListStyle()}>
           {countries.map(({ flags, name, population, region, capital }) => {
-            const countryDescription = {
+            const countryInfo: CountryInfo = {
               image: flags.png,
               name: name,
               subInfo: [
@@ -89,7 +97,7 @@ function CountryList() {
             return (
               <Card
                 key={name}
-                {...countryDescription}
+                {...countryInfo}
                 onClick={() => navigate(`/country/${name}`)}
                 onKeyPress={() => navigate(`/country/${name}`)}
               />

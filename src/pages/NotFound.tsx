@@ -1,5 +1,4 @@
-import React from "react";
-import Main from "../components/Main";
+import Main from "components/Main";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 

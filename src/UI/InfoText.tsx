@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Text = styled.h3`
@@ -11,7 +10,12 @@ const Text = styled.h3`
   }
 `;
 
-function InfoText({ title, description }) {
+type InfoTextProps = {
+  title: string;
+  description: string;
+};
+
+function InfoText({ title, description }: InfoTextProps) {
   return (
     <Text>
       {title}: <span>{description}</span>

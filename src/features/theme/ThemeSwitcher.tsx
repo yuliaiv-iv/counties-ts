@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Button from "../../UI/Button";
 import { IoMoonOutline, IoMoon } from "react-icons/io5";
 import { CapitalizeFirstLetter } from "../../utils/config";
 
-import { useSelector, useDispatch } from "react-redux";
-import { setTheme } from "./themeSlice";
+import { useSelector } from "react-redux";
+import { selectTheme, setTheme } from "./themeSlice";
+import { useAppDispatch } from "store";
 
 const Switcher = styled(Button)`
   && {
@@ -15,8 +16,8 @@ const Switcher = styled(Button)`
 `;
 
 function ThemeSwitcher() {
-  const dispatch = useDispatch();
-  const theme = useSelector((state) => state.theme);
+  const dispatch = useAppDispatch();
+  const theme = useSelector(selectTheme);
 
   useEffect(() => {
     const lastTheme = localStorage.getItem("themeMode");
